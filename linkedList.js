@@ -8,21 +8,13 @@ class LinkedList {
         if(this.head==null) {
             this.head = newNode;
         } else {
-            let pointer = this.head;
-            while(pointer) {
-                if(!pointer.next) {
-                    pointer.next = newNode;
-                    newNode.previous = pointer;
-                }
-                pointer = pointer.next;
-            }
+            this.tail.next = newNode;
             newNode.previous = this.tail;
         }
         this.tail = newNode;
     }
     prepend(value) {
-        const newNode = new Node();
-        newNode.value = value;
+        const newNode = new Node(value);
         if(this.head==null) {
             this.tail = newNode;
         } else {
@@ -40,26 +32,39 @@ class LinkedList {
         } 
         return total;
     }
-    head() {
-        return this.head;
+    showHead() {
+        return this.head.value;
     }
-    tail() {
-        return this.tail;
+    showTail() {
+        return this.tail.value;
     }
     at(index) {
         let pointer = this.head;
-        for(let i=0;i<index;i++) {
-            if(!pointer) {
-                console.log("Index doesn't exist!");
+        let count = index;
+        while(count) {
+            if(pointer) {
+                count -= 1;
+                pointer = pointer.next;
+            } else {
                 return null;
             }
-            pointer = pointer.next;
         }
-        return pointer;
+        return pointer.value;
     }
     pop() {
-        this.tail = this.tail.previous;
-        this.tail.next = null;
+        let pointer = this.head;
+        while(pointer && pointer.next) {
+            if(this.head.next==null) {
+                this.head = null;
+                this.tail = null;
+            }
+            else if(pointer.next.next) {
+                pointer = pointer.next;
+            } else {
+                pointer.next = null;
+                this.tail = pointer;
+            }
+        }
     }
     contains(value) {
         let pointer = this.head;
@@ -87,9 +92,33 @@ class LinkedList {
         let pointer = this.head;
         while(pointer) {
             output += `( ${pointer.value}) -> `;
+            pointer = pointer.next;
         }
         output = output + 'null';
         return output;
+    }
+    insertAt(value, index) {
+        let pointer = this.head;
+        let count = 0;
+        while(count<index && pointer.next) {
+            count += 1;
+            pointer = pointer.next;
+        }
+        let newNode = new Node(value);
+        newNode.next = pointer;
+        newNode.previous = pointer.previous;
+        newNode.previous.next = newNode;
+        newNode.next.previous = newNode;
+    }
+    removeAt(index) {
+        let pointer = this.head;
+        let count = 0;
+        while(count<index && pointer.next) {
+            count += 1;
+            pointer = pointer.next;
+        }
+        pointer.previous.next = pointer.next;
+        pointer.next.previous = pointer.previous;
     }
 }
 
