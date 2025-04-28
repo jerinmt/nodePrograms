@@ -84,6 +84,7 @@ class LinkedList {
                 return index;
             }
             pointer = pointer.next;
+            index += 1;
         }
         return null;
     }
@@ -111,14 +112,25 @@ class LinkedList {
         newNode.next.previous = newNode;
     }
     removeAt(index) {
+        if(this.head.next===null) {
+            this.head = null;
+            return;
+        }
         let pointer = this.head;
         let count = 0;
         while(count<index && pointer.next) {
             count += 1;
             pointer = pointer.next;
         }
-        pointer.previous.next = pointer.next;
-        pointer.next.previous = pointer.previous;
+        if(pointer) {
+            if(index===0) {
+                this.head = pointer.next;
+                pointer.next.previous = null;
+            } else {
+                pointer.previous.next = pointer.next;
+                pointer.next.previous = pointer.previous;
+            }
+        }
     }
 }
 
