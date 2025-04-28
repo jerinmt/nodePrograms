@@ -35,4 +35,6 @@ function mergeSort(arr) {
     return result;
 }
 
-console.log(mergeSort([105, 79, 100, 110]));
+
+
+export {mergeSort};
