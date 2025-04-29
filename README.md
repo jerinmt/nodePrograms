@@ -10,3 +10,5 @@ Completed the linked list.
 Completed the hashmap.
 
 Completed the binary search tree.
+
+Completed the knight's travail problem.
